@@ -7,7 +7,7 @@ interface Props {
 
 export const MapView = ({ beer }: Props) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY || '',
+    googleMapsApiKey: process.env.GOOGLE_API_KEY || '',
   })
 
   return (

@@ -9,13 +9,14 @@ import './Beer.css'
 
 const Beer = () => {
   const { id } = useParams() as { id: string }
-  const { beer, handleToggleFavorite, savedList } = useBeer(id)
+  const { status, beer, handleToggleFavorite, savedList } = useBeer(id)
   const { classes } = useMuiStyles()
 
   return (
     <Paper className={classes.root}>
-      {!beer && <CircularProgress />}
-      {beer && (
+      {status.isError && <h2>Whoops! something went wrong!</h2>}
+      {status.isLoading && <CircularProgress />}
+      {status.isSuccess && beer && (
         <div className={classes.cardContent}>
           <div>
             <BeerInfo

@@ -8,8 +8,14 @@ type TYPE =
   | 'bar'
   | 'contract'
   | 'proprietor'
-  | 'closed';
+  | 'closed'
 
-type SORT = 'asc' | 'desc';
+type SORT = 'asc' | 'desc'
 
-export type { TYPE, SORT };
+interface Status {
+  isError: boolean
+  isLoading: boolean
+  isSuccess: boolean
+}
+
+export type { TYPE, SORT, Status }

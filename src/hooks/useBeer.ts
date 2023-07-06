@@ -5,16 +5,25 @@ import {
   saveBeerList,
   toggleSavedListItem,
 } from '../api/localStorageApi/beerLocalStorage'
-import { fetchBeerData } from '../views/Beer/utils'
+import { useQuery } from '@tanstack/react-query'
 import { Beer } from '../types/beer'
+import { getBeer } from '../api'
+import { Status } from '../types'
 
 interface UseBeerHook {
   beer: Beer | undefined
   savedList: Beer[]
   handleToggleFavorite: (id: string) => void
+  status: Status
 }
 
 export const useBeer = (id: string): UseBeerHook => {
+  const { isSuccess, isError, isLoading, data } = useQuery({
+    queryKey: ['getBeer'],
+    queryFn: () => getBeer(id),
+    enabled: navigator.onLine,
+  })
+
   const [beer, setBeer] = useState<Beer>()
   const [savedList, setSavedList] = useState<Beer[]>([])
 
@@ -23,9 +32,7 @@ export const useBeer = (id: string): UseBeerHook => {
   }, [])
 
   useEffect(() => {
-    if (navigator.onLine) {
-      fetchBeerData(setBeer, id)
-    } else {
+    if (!navigator.onLine) {
       setBeer(getSavedBeer(id))
     }
   }, [id])
@@ -36,5 +43,10 @@ export const useBeer = (id: string): UseBeerHook => {
     setSavedList(updatedSavedList)
   }
 
-  return { beer, savedList, handleToggleFavorite }
+  return {
+    status: { isError, isLoading, isSuccess },
+    beer: data?.data,
+    savedList,
+    handleToggleFavorite,
+  }
 }

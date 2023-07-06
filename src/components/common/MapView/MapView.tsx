@@ -16,10 +16,18 @@ export const MapView = ({ beer }: Props) => {
         <div>
           <GoogleMap
             mapContainerClassName="map-container"
-            center={{ lat: beer?.latitude, lng: beer?.longitude }}
+            center={{
+              lat: Number(beer?.latitude),
+              lng: Number(beer?.longitude),
+            }}
             zoom={16}
           >
-            <MarkerF position={{ lat: beer?.latitude, lng: beer?.longitude }} />
+            <MarkerF
+              position={{
+                lat: Number(beer?.latitude),
+                lng: Number(beer?.longitude),
+              }}
+            />
           </GoogleMap>
         </div>
       )}

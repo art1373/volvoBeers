@@ -43,7 +43,7 @@ const Home = () => {
               </div>
               <ul className={styles.list}>
                 {beerList.map((beer, index) => (
-                  <li key={beer.id}>
+                  <li data-testid="test-beer-link" key={beer.id}>
                     <Checkbox
                       checked={savedList.some((fav) => fav.id === beer.id)}
                       onChange={() => handleToggleFavorite(beer.id)}
